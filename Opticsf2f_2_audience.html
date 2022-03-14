@@ -114,19 +114,19 @@
 
   <script>
 		var roundTable = false;
-		var username = "Lecturer";
+		var username = "Audience";
 		var room = null;  // roundtable room
-	 	var data = {"slides": [{"canvas": "", "html": "\u003cdiv class=\u0027title\u0027 style=\u0027font-size:1.25em\u0027\u003e\u003cp\u003e$N$-slit diffraction \u003c/p\u003e\u003c/div\u003e\u003cdiv class=\u0027left\u0027 style=\u0027font-size:1.00em\u0027\u003e\u003c/div\u003e\u003cdiv class=\u0027right\u0027 style=\u0027font-size:1.00em\u0027\u003e\u003ciframe src=\u0027./Figures/SlitPhasor.html\u0027 title=\u0027iframe ./Figures/SlitPhasor.html\u0027 class=\u0027sframe\u0027 style=\u0027height:600px;max-height:600px;\u0027\u003e\u003c/iframe\u003e\u003c/div\u003e", "style": ""}]};
+	 	var data = {"slides": [{"canvas": "", "html": "\u003cdiv class=\u0027title\u0027 style=\u0027font-size:1.25em\u0027\u003e\u003cp\u003eSimulation of a plano-convex lens\u003c/p\u003e\u003c/div\u003e\u003cdiv class=\u0027left\u0027 style=\u0027font-size:0.50em\u0027\u003e\u003cul\u003e\n\u003cli\u003e\n\u003cp\u003eA lens is a plane wave - to - spherical wave converter, see Opticsf2f Sec. 2.17\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cp\u003eA ray is a line normal to the wavefront, except ....?\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cp\u003eWhat is the spacing between the wavefronts inside the lens?\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cp\u003eWhy do the rays not focus to a point?\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cp\u003eWhen is the focal point (a) gaussian, (b) an Airy pattern?\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cp\u003eWhat value of $n$ produces a focus close to the centre of curvature of lens?\u003c/p\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\u003c/div\u003e\u003cdiv class=\u0027right\u0027 style=\u0027font-size:1.00em\u0027\u003e\u003ciframe src=\u0027./Figures/Lens_1.html\u0027 title=\u0027iframe ./Figures/Lens_1.html\u0027 class=\u0027sframe\u0027 style=\u0027height:600px;max-height:600px;\u0027\u003e\u003c/iframe\u003e\u003c/div\u003e", "style": ""}]};
 		var logoURL = "././presentation_files/Durham_University_Logo.png";
 		var leftHanded = true;
 		var drawingHelp = "lines";//"lines" or "dots";
 	  var drawingHelpIntensity = 0.04;
 	  var roundTableCallBack = null;
-		var roundTableServer = "https://roundtable.researchx3d.com";
-		var roundTableAuth = "osagASfew8t31qNqfHQ3Gq";
+		var roundTableServer = "";
+		var roundTableAuth = "";
 		var roundTableExit = null;
-		var presentationServer = "https://opticsf2f.github.io/Opticsf2f_3.html";
-		var presenter = true;
+		var presentationServer = "";
+		var presenter = false;
 	 	window.onload = initApp();
  	</script>
 
