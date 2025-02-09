@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <!-- Preload is necessary because we show these images when we disconnect from the server,
+    but at that point we cannot load these images from the server -->
+    <link rel="preload" href="./assets/gradient-yHQUC_QB.png" as="image" />
+    <link rel="preload" href="./assets/noise-60BoTA8O.png" as="image" />
+    <!-- Preload the fonts -->
+    <link rel="preload" href="./assets/Lora-VariableFont_wght-B2ootaw-.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Regular-CxL0S8W7.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Bold-D9fedIX3.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Regular-BTCkDNvf.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Medium-DU3aDxX5.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Bold-CLVRCuM9.ttf" as="font" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="a marimo app" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <script data-marimo="true">
+      function __resizeIframe(obj) {
+        var scrollbarHeight = 20; // Max between windows, mac, and linux
+
+        function setHeight() {
+          var element = obj.contentWindow.document.documentElement;
+          // If there is no vertical scrollbar, we don't need to resize the iframe
+          if (element.scrollHeight === element.clientHeight) {
+            return;
+          }
+
+          // Create a new height that includes the scrollbar height if it's visible
+          var hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+          var newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
+
+          // Only update the height if it's different from the current height
+          if (obj.style.height !== `${newHeight}px`) {
+            obj.style.height = `${newHeight}px`;
+          }
+        }
+
+        // Resize the iframe to the height of the content and bottom scrollbar height
+        setHeight();
+
+        // Resize the iframe when the content changes
+        const resizeObserver = new ResizeObserver((entries) => {
+          setHeight();
+        });
+        resizeObserver.observe(obj.contentWindow.document.body);
+      }
+    </script>
+    <marimo-filename hidden>notebook.py</marimo-filename>
+    <marimo-mode data-mode='read' hidden></marimo-mode>
+    <marimo-version data-version='0.10.19' hidden></marimo-version>
+    <marimo-user-config data-config='{"completion": {"activate_on_typing": true, "copilot": false}, "display": {"theme": "light", "code_editor_font_size": 14, "cell_output": "above", "default_width": "medium", "dataframes": "rich"}, "formatting": {"line_length": 79}, "keymap": {"preset": "default", "overrides": {}}, "runtime": {"auto_instantiate": true, "auto_reload": "off", "on_cell_change": "autorun"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "package_management": {"manager": "pip"}, "server": {"browser": "default", "follow_symlink": false}, "snippets": {"custom_paths": [], "include_default_snippets": true}}' data-overrides='{}' hidden></marimo-user-config>
+    <marimo-app-config data-config='{"width": "medium"}' hidden></marimo-app-config>
+    <marimo-server-token data-token='123' hidden></marimo-server-token>
+    <title>marimo</title>
+    <script type="module" crossorigin src="./assets/index-C_IDebto.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DfLILvXO.css">
+  <marimo-wasm hidden=""></marimo-wasm>
+    <script>
+        if (window.location.protocol === 'file:') {
+            alert('Warning: This file must be served by an HTTP server to function correctly.');
+        }
+    </script>
+    
+    <style>
+        #save-button {
+            display: none !important;
+        }
+        #filename-input {
+            display: none !important;
+        }
+    </style>
+    <marimo-code hidden="" data-show-code="false">import%20marimo%0A%0A__generated_with%20%3D%20%220.10.19%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20letter_no%20%3D%20mo.ui.slider(start%3D0%2C%20stop%3D25%2C%20step%3D1%2C%20label%3D%22Letter%22%2C%20value%3D0)%0A%20%20%20%20letter_no%0A%20%20%20%20return%20(letter_no%2C)%0A%0A%0A%40app.cell%0Adef%20_(Output%2C%20letter_no%2C%20letters)%3A%0A%20%20%20%20Output(letters%5Bletter_no.value%5D)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20string%20%0A%20%20%20%20letters%20%3D%20string.ascii_uppercase%0A%20%20%20%20return%20letters%2C%20string%0A%0A%0A%40app.cell%0Adef%20_(MakeImage%2C%20f_input%2C%20fft2%2C%20fftshift%2C%20np%2C%20plt)%3A%0A%20%20%20%20def%20Output(letter)%3A%0A%20%20%20%20%20%20%20%20Ein%20%3D%20f_input(letter%2C48)%0A%20%20%20%20%20%20%20%20InputImage%20%3D%20f_input(letter%2C480)%0A%20%20%20%20%20%20%20%20F%3Dfftshift(fft2(Ein))%0A%20%20%20%20%20%20%20%20Fr%3DF.real%0A%20%20%20%20%20%20%20%20Fi%3DF.imag%0A%20%20%20%20%20%20%20%20F2%3DFr*Fr%2BFi*Fi%0A%20%20%20%20%20%20%20%20F2%20%2F%3Dnp.max(F2)%0A%20%20%20%20%20%20%20%20x_pts%2C%20y_pts%20%3D%20np.shape(F2)%0A%0A%20%20%20%20%20%20%20%20fig%2C%20axs%20%3D%20plt.subplots(1%2C2%2Cfigsize%20%3D%20(2*2%2C2)%2Cdpi%3D100%2Csqueeze%3D0)%0A%20%20%20%20%20%20%20%20axs%5B0%2C0%5D.imshow(MakeImage(InputImage%2C%5B1%2C1%2C1%5D)%20)%0A%20%20%20%20%20%20%20%20axs%5B0%2C1%5D.imshow(MakeImage(F2**0.5%2C%5B1000%2C1000%2C1%5D))%0A%20%20%20%20%20%20%20%20for%20ax%20in%20axs.ravel()%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20ax.set_axis_off()%0A%20%20%20%20%20%20%20%20plt.subplots_adjust(left%3D0.0%2Cbottom%3D0.0%2Cright%3D1.0%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20top%3D1.0%2Cwspace%3D0.05%2Chspace%3D0.05)%0A%20%20%20%20%20%20%20%20return%20fig%0A%20%20%20%20return%20(Output%2C)%0A%0A%0A%40app.cell%0Adef%20_(np%2C%20plt)%3A%0A%20%20%20%20def%20f_input(letter%2Cfs)%3A%0A%20%20%20%20%20%20%20%20fig%20%3D%20plt.figure(1%2Cfigsize%20%3D%20(8%2C8)%2Cdpi%3D100)%0A%20%20%20%20%20%20%20%20plt.ioff()%0A%20%20%20%20%20%20%20%20ax%20%3D%20fig.add_axes(%5B0.0%2C%200.0%2C%201.0%2C%201.0%5D)%0A%20%20%20%20%20%20%20%20ax.text(0.5%2C0.45%2C%20letter%2C%20fontsize%3D%20fs%2Chorizontalalignment%20%3D%20'center'%2Cverticalalignment%20%3D%20'center')%0A%20%20%20%20%20%20%20%20ax.axison%20%3D%20False%0A%20%20%20%20%20%20%20%20fig.canvas.draw()%0A%20%20%20%20%20%20%20%20data%20%3D%20np.array(fig.canvas.renderer.buffer_rgba())%20%20%20%20%20%0A%20%20%20%20%20%20%20%20Input%20%3D%20np.mean(data%2C-1)%2F255.0%20%0A%20%20%20%20%20%20%20%20Input%20-%3D%20np.min(Input)%20%0A%20%20%20%20%20%20%20%20Input%20%2F%3D%20np.max(Input)%0A%20%20%20%20%20%20%20%20Input%20-%3D1%0A%20%20%20%20%20%20%20%20plt.clf()%0A%20%20%20%20%20%20%20%20plt.ion()%0A%20%20%20%20%20%20%20%20plt.cla()%20%20%20%23%20Clear%20axis%0A%20%20%20%20%20%20%20%20plt.clf()%20%20%20%23%20Clear%20figure%0A%20%20%20%20%20%20%20%20plt.close()%20%23%20Close%20a%20figure%20window%0A%20%20%20%20%20%20%20%20return%20Input%0A%20%20%20%20return%20(f_input%2C)%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20def%20MakeImage(E%2CGain)%3A%0A%20%20%20%20%20%20%20%20x_pts%2C%20y_pts%20%3D%20np.shape(E)%0A%20%20%20%20%20%20%20%20R%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20B%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20G%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20R%20%2B%3D%201.0*(E.real*E.real%20%2B%20E.imag*E.imag)%0A%20%20%20%20%20%20%20%20G%20%2B%3D%20R%0A%20%20%20%20%20%20%20%20R%3Dnp.clip(Gain%5B0%5D*R%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20G%3Dnp.clip(Gain%5B1%5D*G%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20B%3Dnp.clip(Gain%5B2%5D*B%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20return%20np.dstack(%5BR%2C%20G%2C%20B%5D)%0A%20%20%20%20return%20(MakeImage%2C)%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20import%20matplotlib%20as%20mpl%0A%20%20%20%20mpl.rcParams%5B'font.family'%5D%20%3D%20'sans-serif'%0A%20%20%20%20from%20numpy.fft%20import%20fft%2C%20fft2%2C%20ifft%2C%20fftshift%0A%20%20%20%20return%20fft%2C%20fft2%2C%20fftshift%2C%20ifft%2C%20mpl%2C%20np%2C%20plt%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20return%20(mo%2C)%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
