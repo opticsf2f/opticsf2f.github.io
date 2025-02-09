@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <!-- Preload is necessary because we show these images when we disconnect from the server,
+    but at that point we cannot load these images from the server -->
+    <link rel="preload" href="./assets/gradient-yHQUC_QB.png" as="image" />
+    <link rel="preload" href="./assets/noise-60BoTA8O.png" as="image" />
+    <!-- Preload the fonts -->
+    <link rel="preload" href="./assets/Lora-VariableFont_wght-B2ootaw-.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Regular-CxL0S8W7.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Bold-D9fedIX3.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Regular-BTCkDNvf.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Medium-DU3aDxX5.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Bold-CLVRCuM9.ttf" as="font" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="a marimo app" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <script data-marimo="true">
+      function __resizeIframe(obj) {
+        var scrollbarHeight = 20; // Max between windows, mac, and linux
+
+        function setHeight() {
+          var element = obj.contentWindow.document.documentElement;
+          // If there is no vertical scrollbar, we don't need to resize the iframe
+          if (element.scrollHeight === element.clientHeight) {
+            return;
+          }
+
+          // Create a new height that includes the scrollbar height if it's visible
+          var hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+          var newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
+
+          // Only update the height if it's different from the current height
+          if (obj.style.height !== `${newHeight}px`) {
+            obj.style.height = `${newHeight}px`;
+          }
+        }
+
+        // Resize the iframe to the height of the content and bottom scrollbar height
+        setHeight();
+
+        // Resize the iframe when the content changes
+        const resizeObserver = new ResizeObserver((entries) => {
+          setHeight();
+        });
+        resizeObserver.observe(obj.contentWindow.document.body);
+      }
+    </script>
+    <marimo-filename hidden>notebook.py</marimo-filename>
+    <marimo-mode data-mode='read' hidden></marimo-mode>
+    <marimo-version data-version='0.10.19' hidden></marimo-version>
+    <marimo-user-config data-config='{"completion": {"activate_on_typing": true, "copilot": false}, "display": {"theme": "light", "code_editor_font_size": 14, "cell_output": "above", "default_width": "medium", "dataframes": "rich"}, "formatting": {"line_length": 79}, "keymap": {"preset": "default", "overrides": {}}, "runtime": {"auto_instantiate": true, "auto_reload": "off", "on_cell_change": "autorun"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "package_management": {"manager": "pip"}, "server": {"browser": "default", "follow_symlink": false}, "snippets": {"custom_paths": [], "include_default_snippets": true}}' data-overrides='{}' hidden></marimo-user-config>
+    <marimo-app-config data-config='{"width": "medium"}' hidden></marimo-app-config>
+    <marimo-server-token data-token='123' hidden></marimo-server-token>
+    <title>marimo</title>
+    <script type="module" crossorigin src="./assets/index-C_IDebto.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DfLILvXO.css">
+  <marimo-wasm hidden=""></marimo-wasm>
+    <script>
+        if (window.location.protocol === 'file:') {
+            alert('Warning: This file must be served by an HTTP server to function correctly.');
+        }
+    </script>
+    
+    <style>
+        #save-button {
+            display: none !important;
+        }
+        #filename-input {
+            display: none !important;
+        }
+    </style>
+    <marimo-code hidden="" data-show-code="false">import%20marimo%0A%0A__generated_with%20%3D%20%220.10.19%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell(hide_code%3DTrue)%0Adef%20_(mo)%3A%0A%20%20%20%20INDEX%20%3D%20mo.ui.slider(start%3D1.5%2C%20stop%3D2.6%2C%20step%3D0.1%2C%20label%3D%22INDEX%22)%0A%20%20%20%20RAYS%20%3D%20mo.ui.slider(start%3D0%2C%20stop%3D1%2C%20step%3D1%2C%20label%3D%22RAYS%22%2C%20value%3D0)%0A%20%20%20%20EI%20%3D%20mo.ui.slider(start%3D0%2C%20stop%3D1%2C%20step%3D1%2C%20label%3D%22E%20or%20I%22%2C%20value%3D0)%0A%20%20%20%20mo.vstack(%5BINDEX%2CRAYS%2CEI%5D)%0A%20%20%20%20return%20EI%2C%20INDEX%2C%20RAYS%0A%0A%0A%40app.cell%0Adef%20_(EI%2C%20INDEX%2C%20LensFig%2C%20RAYS)%3A%0A%20%20%20%20LensFig(INDEX.value%2CRAYS.value%2CEI.value)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(Circle%2C%20Y%2C%20Z%2C%20zmax)%3A%0A%20%20%20%20Radius%20%3D%2018.0%0A%20%20%20%20Radius2%3DRadius*Radius%0A%20%20%20%20ZPos%3D%20zmax%2F2%0A%20%20%20%20YPos%3D%200%0A%20%20%20%20LensBack%20%3D%206%0A%20%20%20%20Lens%20%3D%20Circle(Z%2CY%2CZPos%2CYPos%2CRadius)%20*%20(Z%20%3C%20(LensBack))%0A%20%20%20%20return%20Lens%2C%20LensBack%2C%20Radius%2C%20Radius2%2C%20YPos%2C%20ZPos%0A%0A%0A%40app.cell%0Adef%20_(dy%2C%20dz%2C%20np%2C%20y_pts)%3A%0A%20%20%20%20kymax%3D1.0*np.pi%2Fdy%20%0A%20%20%20%20dky%3D2*kymax%2Fy_pts%0A%20%20%20%20ky%3Dnp.arange(-kymax%2Ckymax%2Cdky)%20%23%20fourier%20axis%20scaling%0A%20%20%20%20ky2%3Dky*ky%0A%20%20%20%20ky2c%3Dky2.astype('complex')%0A%20%20%20%20k%3D2.0*np.pi%20%23%20k%3D2pi%2Flambda%20with%20lambda_0%3D1%0A%20%20%20%20k2%3Dk*k%0A%20%20%20%20kz%3Dnp.sqrt(k2-ky2c)%0A%20%20%20%20ph%3D1.0j*kz*dz%0A%20%20%20%20return%20dky%2C%20k%2C%20k2%2C%20ky%2C%20ky2%2C%20ky2c%2C%20kymax%2C%20kz%2C%20ph%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20zmin%20%3D%200%20%0A%20%20%20%20zmax%20%3D%2040%0A%20%20%20%20ymin%20%3D%20-20%0A%20%20%20%20ymax%20%3D%2020%0A%20%20%20%20dz%20%3D%200.05%0A%20%20%20%20dy%20%3D%200.05%0A%20%20%20%20zoom%20%3D%201%0A%20%20%20%20Z%2C%20Y%20%3D%20np.mgrid%5Bzmin%2Fzoom%3Azmax%2Fzoom%3Adz%2Fzoom%2Cymin%2Fzoom%3Aymax%2Fzoom%3Ady%2Fzoom%5D%0A%20%20%20%20z_pts%2C%20y_pts%20%3D%20np.shape(Z)%0A%20%20%20%20return%20Y%2C%20Z%2C%20dy%2C%20dz%2C%20y_pts%2C%20ymax%2C%20ymin%2C%20z_pts%2C%20zmax%2C%20zmin%2C%20zoom%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20def%20Line(x%2Cy%2Cx1%2Cy1%2Cx2%2Cy2%2Ca)%3A%0A%20%20%20%20%20%20%20%20x0%20%3D%20(x1%2Bx2)%2F2%0A%20%20%20%20%20%20%20%20y0%20%3D%20(y1%2By2)%2F2%20%20%20%0A%20%20%20%20%20%20%20%20rotation%20%3D%20-np.arctan((x1-x2)%2F(y1-y2%2B1e-8))%0A%20%20%20%20%20%20%20%20b%20%3D%20np.sqrt((x1-x2)**2%20%2B%20(y1-y2)**2)%20%23%20length%20of%20line%0A%20%20%20%20%20%20%20%20xa%20%3D%20(x-x0)*np.cos(rotation)%20%2B%20(y-y0)*np.sin(rotation)%0A%20%20%20%20%20%20%20%20ya%20%3D%20(y-y0)*np.cos(rotation)%20-%20(x-x0)*np.sin(rotation)%0A%20%20%20%20%20%20%20%20return%20(xa%20%3E%20(-a%2F2))%20%26%20(xa%20%3C%20(a%2F2))%20%26%20(ya%20%3E%20(-b%2F2))%20%26%20(ya%20%3C%20(b%2F2))%0A%0A%20%20%20%20def%20GBeam(zb%2Cyb%2Cz0%2Cy0%2Cbeamsize%2Cangle)%3A%0A%20%20%20%20%20%20%20%20angle%20%3D%20angle%0A%20%20%20%20%20%20%20%20za%20%3D%20(zb-z0)*np.cos(angle)%20%2B%20(yb-y0)*np.sin(angle)%0A%20%20%20%20%20%20%20%20ya%20%3D%20(yb-y0)*np.cos(angle)%20-%20(zb-z0)*np.sin(angle)%0A%20%20%20%20%20%20%20%20zR%20%3D%20np.pi*beamsize**2%0A%20%20%20%20%20%20%20%20q%20%3D%20za-1.j*zR%0A%20%20%20%20%20%20%20%20return%20(-1.j*zR*np.exp(2*np.pi*1.j*(za%2Bya*ya%2F(2*q)))%2Fq)%20%0A%0A%20%20%20%20def%20Circle(x%2Cy%2Cx0%2Cy0%2Cr)%3A%0A%20%20%20%20%20%20%20%20xa%20%3D%20x-x0%0A%20%20%20%20%20%20%20%20ya%20%3D%20y-y0%0A%20%20%20%20%20%20%20%20return%20(xa*xa%20%2B%20ya*ya%20%3C%20(r*r))%0A%20%20%20%20return%20Circle%2C%20GBeam%2C%20Line%0A%0A%0A%40app.cell%0Adef%20_(LensBack%2C%20Line%2C%20Radius%2C%20Y%2C%20Z%2C%20ZPos%2C%20np%2C%20zmax)%3A%0A%20%20%20%20def%20DrawRays(R%2CG%2CB%2CNRays%2CRaySep%2CRayWidth%2CBeamOffset%2CIndex)%3A%0A%20%20%20%20%20%20%20%20for%20RayDisp%20in%20range%20(-NRays%2CNRays%2B1%2C1)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20ZR1%20%3D%200%0A%20%20%20%20%20%20%20%20%20%20%20%20YR1%20%3D%20BeamOffset%20%2B%20RayDisp%20*%20RaySep%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20np.abs(YR1)%20%3C%20Radius%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20ZR2%20%3D%20ZPos%20-%20np.sqrt(Radius**2%20-%20%20YR1**2)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20YR2%20%3D%20np.sign(YR1)*np.sqrt(Radius**2%20-%20(ZR2-ZPos)**2)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20R%20%2B%3D%200.2%20*%20Line(Z%2CY%2CZR1%2CYR1%2CZR2%2CYR2%2CRayWidth)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20Theta_i%20%3D%20np.arccos(-(ZR2-ZPos)%2FRadius)%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20Theta_t%20%3D%20np.arcsin(np.sin(Theta_i)%2FIndex)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20BAngle2%20%3D%20np.sign(YR1)*(Theta_t%20-%20Theta_i)%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20ZR3%20%3D%20LensBack%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20YR3%20%3D%20(ZR3-ZR2)*np.tan(BAngle2)%20%2B%20YR2%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20R%20%2B%3D%200.2%20*%20Line(Z%2CY%2CZR2%2CYR2%2CZR3%2CYR3%2CRayWidth)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20BAngle3%20%3D%20np.arcsin(np.clip(np.sin(BAngle2)*Index%2C-1.0%2C1.0))%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20ZR4%20%3D%20zmax%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20YR4%20%3D%20(ZR4-ZR3)*np.tan(BAngle3)%20%2B%20YR3%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20R%20%2B%3D%200.2%20*%20Line(Z%2CY%2CZR3%2CYR3%2CZR4%2CYR4%2CRayWidth)%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20ZR2%20%3D%20zmax%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20YR2%20%3D%20YR1%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20R%20%2B%3D%20Line(Z%2CY%2CZR1%2CYR1%2CZR2%2CYR2%2C0.1)%20%0A%20%20%20%20%20%20%20%20G%20%2B%3D%20R%0A%20%20%20%20%20%20%20%20B%20%2B%3D%20R%0A%20%20%20%20%20%20%20%20return%20R%2C%20G%2C%20B%0A%20%20%20%20return%20(DrawRays%2C)%0A%0A%0A%40app.cell%0Adef%20_(%0A%20%20%20%20DrawRays%2C%0A%20%20%20%20GBeam%2C%0A%20%20%20%20Lens%2C%0A%20%20%20%20Y%2C%0A%20%20%20%20Z%2C%0A%20%20%20%20dz%2C%0A%20%20%20%20fft%2C%0A%20%20%20%20fftshift%2C%0A%20%20%20%20ifft%2C%0A%20%20%20%20kz%2C%0A%20%20%20%20np%2C%0A%20%20%20%20plt%2C%0A%20%20%20%20y_pts%2C%0A%20%20%20%20z_pts%2C%0A)%3A%0A%20%20%20%20def%20LensFig(Index%2CRays%2CEI)%3A%0A%20%20%20%20%20%20%20%20BeamSize%20%3D%2010%0A%20%20%20%20%20%20%20%20R%20%3D%20np.zeros((z_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20G%20%3D%20np.zeros((z_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20B%20%3D%20np.zeros((z_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20NR%20%3D%20np.zeros((z_pts%2Cy_pts))%20%23%20refractive%20index%0A%20%20%20%20%20%20%20%20NR%20%2B%3D%20(Index%20-%201)*Lens%20%23%20n-1%20red%200.45%0A%20%20%20%20%20%20%20%20BAngle%20%3D%200*np.pi%2F180%0A%20%20%20%20%20%20%20%20BeamOffset%20%3D%200%0A%0A%20%20%20%20%20%20%20%20if%20(Rays%20%3D%3D%201)%3A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20R%2C%20G%2C%20B%20%3D%20DrawRays(R%2C%20G%2C%20B%2C%2010%2C%201%2C%200.2%2C0%2CIndex%20)%20%20%20%20%0A%20%20%20%20%20%20%20%20E0%20%3D%20GBeam(Z%5B0%2C%3A%5D%2CY%5B0%2C%3A%5D%2C0%2CBeamOffset%2CBeamSize%2CBAngle)%0A%20%20%20%20%20%20%20%20b%20%3D%20fftshift(fft(E0))%0A%20%20%20%20%20%20%20%20for%20jj%20in%20range%20(0%2Cz_pts)%3A%20%23%20propagat%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20c%20%3D%20ifft(fftshift(b))%20*%20np.exp(2.0j*np.pi*NR%5Bjj%2C%3A%5D*dz)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20b%20%3D%20fftshift(fft(c))%20*%20np.exp(1.0j*kz*dz)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(EI%20%3D%3D%200)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20R%5Bjj%2C%3A%5D%20-%3D%20%200.5*c.real%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20B%5Bjj%2C%3A%5D%20%2B%3D%20%200.5*c.real%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20if%20(EI%20%3D%3D%201)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20G%5Bjj%2C%3A%5D%20%2B%3D%20%200.2*(abs(c)*abs(c))**0.5%0A%0A%20%20%20%20%20%20%20%20fig%2C%20(ax1)%20%3D%20plt.subplots(1%2C1%2Cfigsize%3D(16%2C%2016)%2Cdpi%3D30)%0A%20%20%20%20%20%20%20%20R%2B%3D0.3*(Index-1)*Lens%20%23%20add%20lens%20to%20final%20image%0A%20%20%20%20%20%20%20%20G%2B%3D0.3*(Index-1)*Lens%0A%20%20%20%20%20%20%20%20B%2B%3D0.3*(Index-1)*Lens%0A%20%20%20%20%20%20%20%20R%3Dnp.clip(R%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20G%3Dnp.clip(G%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20B%3Dnp.clip(B%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20RGB%3Dnp.dstack((np.flipud(R.T)%2C%20np.flipud(G.T)%2C%20np.flipud(B.T)))%20%0A%20%20%20%20%20%20%20%20ax1.imshow(RGB)%0A%20%20%20%20%20%20%20%20ax1.set_axis_off()%0A%20%20%20%20%20%20%20%20return%20fig%0A%20%20%20%20return%20(LensFig%2C)%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20from%20numpy.fft%20import%20fft%2C%20ifft%2C%20fftshift%0A%20%20%20%20return%20fft%2C%20fftshift%2C%20ifft%2C%20np%2C%20plt%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20return%20(mo%2C)%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
