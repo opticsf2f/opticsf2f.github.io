@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <!-- Preload is necessary because we show these images when we disconnect from the server,
+    but at that point we cannot load these images from the server -->
+    <link rel="preload" href="./assets/gradient-yHQUC_QB.png" as="image" />
+    <link rel="preload" href="./assets/noise-60BoTA8O.png" as="image" />
+    <!-- Preload the fonts -->
+    <link rel="preload" href="./assets/Lora-VariableFont_wght-B2ootaw-.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Regular-CxL0S8W7.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Bold-D9fedIX3.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Regular-BTCkDNvf.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Medium-DU3aDxX5.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Bold-CLVRCuM9.ttf" as="font" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="a marimo app" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <script data-marimo="true">
+      function __resizeIframe(obj) {
+        var scrollbarHeight = 20; // Max between windows, mac, and linux
+
+        function setHeight() {
+          var element = obj.contentWindow.document.documentElement;
+          // If there is no vertical scrollbar, we don't need to resize the iframe
+          if (element.scrollHeight === element.clientHeight) {
+            return;
+          }
+
+          // Create a new height that includes the scrollbar height if it's visible
+          var hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+          var newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
+
+          // Only update the height if it's different from the current height
+          if (obj.style.height !== `${newHeight}px`) {
+            obj.style.height = `${newHeight}px`;
+          }
+        }
+
+        // Resize the iframe to the height of the content and bottom scrollbar height
+        setHeight();
+
+        // Resize the iframe when the content changes
+        const resizeObserver = new ResizeObserver((entries) => {
+          setHeight();
+        });
+        resizeObserver.observe(obj.contentWindow.document.body);
+      }
+    </script>
+    <marimo-filename hidden>notebook.py</marimo-filename>
+    <marimo-mode data-mode='read' hidden></marimo-mode>
+    <marimo-version data-version='0.10.19' hidden></marimo-version>
+    <marimo-user-config data-config='{"completion": {"activate_on_typing": true, "copilot": false}, "display": {"theme": "light", "code_editor_font_size": 14, "cell_output": "above", "default_width": "medium", "dataframes": "rich"}, "formatting": {"line_length": 79}, "keymap": {"preset": "default", "overrides": {}}, "runtime": {"auto_instantiate": true, "auto_reload": "off", "on_cell_change": "autorun"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "package_management": {"manager": "pip"}, "server": {"browser": "default", "follow_symlink": false}, "snippets": {"custom_paths": [], "include_default_snippets": true}}' data-overrides='{}' hidden></marimo-user-config>
+    <marimo-app-config data-config='{"width": "medium"}' hidden></marimo-app-config>
+    <marimo-server-token data-token='123' hidden></marimo-server-token>
+    <title>marimo</title>
+    <script type="module" crossorigin src="./assets/index-C_IDebto.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DfLILvXO.css">
+  <marimo-wasm hidden=""></marimo-wasm>
+    <script>
+        if (window.location.protocol === 'file:') {
+            alert('Warning: This file must be served by an HTTP server to function correctly.');
+        }
+    </script>
+    
+    <style>
+        #save-button {
+            display: none !important;
+        }
+        #filename-input {
+            display: none !important;
+        }
+    </style>
+    <marimo-code hidden="" data-show-code="false">import%20marimo%0A%0A__generated_with%20%3D%20%220.10.19%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell(hide_code%3DTrue)%0Adef%20_(mo)%3A%0A%20%20%20%20n1%20%3D%20mo.ui.slider(start%3D1.0%2C%20stop%3D1.8%2C%20step%3D0.01%2C%20label%3D%22Layer%20Index%22%2C%20value%3D1.4)%0A%20%20%20%20d%20%3D%20mo.ui.slider(start%3D2%2C%20stop%3D4%2C%20step%3D0.01%2C%20label%3D%22Layer%20Width%22%2C%20value%3D2)%0A%20%20%20%20n0%20%3D%20mo.ui.slider(start%3D1.0%2C%20stop%3D1.2%2C%20step%3D0.01%2C%20label%3D%22Air%20Index%22%2C%20value%3D1.0)%0A%20%20%20%20n2%20%3D%20mo.ui.slider(start%3D1.4%2C%20stop%3D2.25%2C%20step%3D0.02%2C%20label%3D%22Substrate%20Index%22%2C%20value%3D1.7)%0A%0A%20%20%20%20mo.hstack(%5Bmo.vstack(%5Bn1%2Cd%5D)%2C%20mo.vstack(%5Bn0%2Cn2%5D)%5D)%0A%20%20%20%20return%20d%2C%20n0%2C%20n1%2C%20n2%0A%0A%0A%40app.cell%0Adef%20_(MakeFigure%2C%20d%2C%20n0%2C%20n1%2C%20n2)%3A%0A%20%20%20%20MakeFigure(n0.value%2Cn1.value%2Cn2.value%2Cd.value)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20Index0%20%3D%201.0%0A%20%20%20%20Index2%20%3D%202.5%0A%20%20%20%20return%20Index0%2C%20Index2%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20def%20GPlaneWave(z%2Cy%2Cz0%2Cphase%2CDirection%2CIndex)%3A%0A%20%20%20%20%20%20%20%20beamsize%20%3D%206.0%0A%20%20%20%20%20%20%20%20return%20np.exp(1.j*phase)%20*%20np.exp(Direction*1.j*Index*2*np.pi*(z-z0))*np.exp(-y**2%2Fbeamsize**2)%20%0A%0A%20%20%20%20def%20Rectangle(x%2Cy%2Cx0%2Cy0%2Ca%2Cb)%3A%0A%20%20%20%20%20%20%20%20xa%20%3D%20(x-x0)%0A%20%20%20%20%20%20%20%20ya%20%3D%20(y-y0)%0A%20%20%20%20%20%20%20%20return%20(xa%20%3E%20(-a%2F2))%20%26%20(xa%20%3C%20(a%2F2))%20%26%20(ya%20%3E%20(-b%2F2))%20%26%20(ya%20%3C%20(b%2F2))%0A%20%20%20%20return%20GPlaneWave%2C%20Rectangle%0A%0A%0A%40app.cell%0Adef%20_(Rectangle%2C%20Y%2C%20Z%2C%20zmax)%3A%0A%20%20%20%20def%20AddMedium(R%2CG%2CB%2CSlabWidth%2CIndex0%2CIndex1%2CIndex2)%3A%0A%20%20%20%20%20%20%20%20Slab%20%3D%20Rectangle(Z%2CY%2Czmax%2F2%2C0%2CSlabWidth%2C50)%0A%20%20%20%20%20%20%20%20AfterSlab%20%3D%20Rectangle(Z%2CY%2Czmax%2F2%20%2B%205*SlabWidth%20%2BSlabWidth%2F2%2C0%2C10*SlabWidth%2C50)%0A%20%20%20%20%20%20%20%20G%2B%3D0.3*(Index1-1)*Slab%0A%20%20%20%20%20%20%20%20B%2B%3D0.3*(Index1-1)*Slab%0A%20%20%20%20%20%20%20%20G%2B%3D0.2*(Index2-1)*AfterSlab%0A%20%20%20%20%20%20%20%20B%2B%3D0.2*(Index2-1)*AfterSlab%0A%20%20%20%20%20%20%20%20return%20R%2C%20G%2C%20B%0A%20%20%20%20return%20(AddMedium%2C)%0A%0A%0A%40app.cell%0Adef%20_(AddMedium%2C%20GPlaneWave%2C%20Rectangle%2C%20Y%2C%20Z%2C%20np%2C%20y_pts%2C%20z_pts%2C%20zmax)%3A%0A%20%20%20%20def%20FillRGB(ImageNo%2CIndex0%2CIndex1%2CIndex2%2CSlabWidth)%3A%0A%20%20%20%20%20%20%20%20Reflectivity%20%3D%200%0A%20%20%20%20%20%20%20%20Slab%20%3D%20Rectangle(Z%2CY%2Czmax%2F2%2C0%2CSlabWidth%2C50)%0A%20%20%20%20%20%20%20%20BeforeSlab%20%3D%20Rectangle(Z%2CY%2Czmax%2F2-%205*SlabWidth%20-%20SlabWidth%2F2%2C0%2C10*SlabWidth%2C50)%0A%20%20%20%20%20%20%20%20AfterSlab%20%3D%20Rectangle(Z%2CY%2Czmax%2F2%20%2B%205*SlabWidth%20%2BSlabWidth%2F2%2C0%2C10*SlabWidth%2C50)%0A%20%20%20%20%20%20%20%20r1%20%3D%20(Index0-Index1)%2F(Index0%2BIndex1)%0A%20%20%20%20%20%20%20%20t1%20%3D%20np.sqrt(1%20-%20r1**2)%0A%20%20%20%20%20%20%20%20r2%20%3D%20(Index1-Index2)%2F(Index1%2BIndex2)%0A%20%20%20%20%20%20%20%20t2%20%3D%20np.sqrt(1%20-%20r2**2)%20%20%20%0A%20%20%20%20%20%20%20%20r_gain%20%3D%203.0%0A%20%20%20%20%20%20%20%20t_gain%20%3D%201.0%20%0A%20%20%20%20%20%20%20%20Pos1%20%3D%20zmax%2F2%20-%20SlabWidth%2F2%0A%20%20%20%20%20%20%20%20Pos2%20%3D%20zmax%2F2%20%2B%20SlabWidth%2F2%0A%20%20%20%20%20%20%20%20Phase1%20%3D%202*np.pi*Pos1%0A%20%20%20%20%20%20%20%20Ei%20%3D%20GPlaneWave(Z%2CY%2C0%2C0%2C1%2CIndex0)%0A%20%20%20%20%20%20%20%20Er1%20%3D%20r1*GPlaneWave(Z%2CY%2CPos1%2CPhase1%2C-1%2CIndex0)%0A%20%20%20%20%20%20%20%20Et1%20%3D%20t1*GPlaneWave(Z%2CY%2CPos1%2CPhase1%2C1%2CIndex1)%0A%20%20%20%20%20%20%20%20Phase2%20%3D%202*np.pi%20*%20(Pos1%20%2B%20Index1%20*%20SlabWidth)%20%23%20phase%20at%20interface%202%0A%20%20%20%20%20%20%20%20Phase3%20%3D%202*np.pi%20*%20(Pos1%20%2B%20Index1%20*%202%20*%20SlabWidth)%20%23%20phase%20back%20at%20interface%201%0A%20%20%20%20%20%20%20%20Er2%20%3D%20r2*t1*GPlaneWave(Z%2CY%2CPos2%2CPhase2%2C-1%2CIndex1)%20%20%20%20%0A%20%20%20%20%20%20%20%20Et2%20%3D%20t2*t1*GPlaneWave(Z%2CY%2CPos2%2CPhase2%2C1%2CIndex2)%0A%20%20%20%20%20%20%20%20Er2t1%20%3D%20t1*r2*t1*GPlaneWave(Z%2CY%2CPos1%2CPhase3%2C-1%2CIndex0)%0A%20%20%20%20%20%20%20%20R%2C%20G%2C%20B%20%3D%20%5Bnp.zeros((z_pts%2C%20y_pts))%20for%20_%20in%20range(3)%5D%0A%20%20%20%20%20%20%20%20if%20ImageNo%20%3D%3D%201%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20R%20-%3D%201.0*Ei.real%20*%20BeforeSlab%0A%20%20%20%20%20%20%20%20%20%20%20%20B%20%2B%3D%201.0*Ei.real%20*%20BeforeSlab%0A%20%20%20%20%20%20%20%20if%20ImageNo%20%3D%3D%202%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20R%20-%3D%20r_gain*Er1.real%20*%20BeforeSlab%20%2B%20Et1.real%20*%20Slab%0A%20%20%20%20%20%20%20%20%20%20%20%20B%20%2B%3D%20r_gain*Er1.real%20*%20BeforeSlab%20%2B%20Et1.real%20*%20Slab%0A%20%20%20%20%20%20%20%20if%20ImageNo%20%3D%3D%203%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20R%20-%3D%20r_gain%20*%20Er2.real%20*%20Slab%20%2B%20t_gain%20*%20Et2.real%20*%20AfterSlab%20%2B%20r_gain*Er2t1.real%20*%20BeforeSlab%0A%20%20%20%20%20%20%20%20%20%20%20%20B%20%2B%3D%20r_gain%20*%20Er2.real%20*%20Slab%20%2B%20t_gain%20*%20Et2.real%20*%20AfterSlab%20%2B%20r_gain*Er2t1.real%20*%20BeforeSlab%0A%20%20%20%20%20%20%20%20if%20ImageNo%20%3D%3D%204%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20TotalReflection%20%3D%20Er1%20%2B%20Er2t1%0A%20%20%20%20%20%20%20%20%20%20%20%20R%20-%3D%2010*TotalReflection.real%20*%20BeforeSlab%0A%20%20%20%20%20%20%20%20%20%20%20%20B%20%2B%3D%2010*TotalReflection.real%20*%20BeforeSlab%0A%20%20%20%20%20%20%20%20%20%20%20%20Reflectivity%20%3D%20TotalReflection.real**2%20%2B%20TotalReflection.imag**2%0A%20%20%20%20%20%20%20%20R%2C%20G%2C%20B%20%3D%20AddMedium(R%2C%20G%2C%20B%2CSlabWidth%2CIndex0%2CIndex1%2CIndex2)%0A%20%20%20%20%20%20%20%20R%2C%20G%2C%20B%20%3D%20%5Bnp.flipud(np.clip(channel.T%2C%200.0%2C%201.0))%20for%20channel%20in%20(R%2C%20G%2C%20B)%5D%0A%20%20%20%20%20%20%20%20RGB%20%3D%20np.dstack((R%2C%20G%2C%20B))%0A%20%20%20%20%20%20%20%20return%20RGB%2C%20np.max(Reflectivity)%0A%20%20%20%20return%20(FillRGB%2C)%0A%0A%0A%40app.cell%0Adef%20_(FillRGB%2C%20plt)%3A%0A%20%20%20%20def%20MakeFigure(Index0%2CIndex1%2CIndex2%2CSlabWidth)%3A%0A%20%20%20%20%20%20%20%20RGB1%2C%20Reflectivity%20%3D%20FillRGB(1%2CIndex0%2CIndex1%2CIndex2%2CSlabWidth)%0A%20%20%20%20%20%20%20%20RGB2%2C%20Reflectivity%20%3D%20FillRGB(2%2CIndex0%2CIndex1%2CIndex2%2CSlabWidth)%0A%20%20%20%20%20%20%20%20RGB3%2C%20Reflectivity%20%3D%20FillRGB(3%2CIndex0%2CIndex1%2CIndex2%2CSlabWidth)%0A%20%20%20%20%20%20%20%20RGB4%2C%20Reflectivity%20%3D%20FillRGB(4%2CIndex0%2CIndex1%2CIndex2%2CSlabWidth)%0A%20%20%20%20%20%20%20%20fs%20%3D%2016%20%20%20%20%0A%20%20%20%20%20%20%20%20rows%20%3D%204%0A%20%20%20%20%20%20%20%20fig%2C%20axs%20%3D%20plt.subplots(rows%2C1%2C%20figsize%3D(4*rows%2C%204)%2C%20squeeze%20%3D%200)%20%20%20%20%0A%20%20%20%20%20%20%20%20axs%5B0%2C0%5D.imshow(RGB1)%0A%20%20%20%20%20%20%20%20axs%5B0%2C0%5D.text(2%2C30%2C'%24E_i%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'left')%20%0A%20%20%20%20%20%20%20%20axs%5B0%2C0%5D.text(100%2C30%2C'%24n_1%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'center')%20%0A%20%20%20%20%20%20%20%20axs%5B0%2C0%5D.text(150%2C30%2C'%24n_2%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'center')%20%0A%20%20%20%20%20%20%20%20axs%5B1%2C0%5D.imshow(RGB2)%0A%20%20%20%20%20%20%20%20axs%5B1%2C0%5D.text(2%2C30%2C'%24E_%7Br1%7D%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'left')%20%0A%20%20%20%20%20%20%20%20axs%5B1%2C0%5D.text(100%2C30%2C'%24E_%7Bt1%7D%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'center')%20%0A%20%20%20%20%20%20%20%20axs%5B2%2C0%5D.imshow(RGB3)%0A%20%20%20%20%20%20%20%20axs%5B2%2C0%5D.text(2%2C30%2C'%24E_%7Br2%7D%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'left')%20%0A%20%20%20%20%20%20%20%20axs%5B2%2C0%5D.text(150%2C30%2C'%24E_%7Bt2%7D%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'center')%20%0A%20%20%20%20%20%20%20%20axs%5B3%2C0%5D.imshow(RGB4)%0A%20%20%20%20%20%20%20%20axs%5B3%2C0%5D.text(2%2C30%2C'%24E_%7Brtot%7D%5C%5Ctimes10%24'%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'left')%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20axs%5B3%2C0%5D.text(140%2C30%2C'%24R%20%3D%20%251.4f%24'%20%25Reflectivity%2Ccolor%3D'white'%2Cfontsize%3Dfs%2Cva%3D'center'%2Cha%3D'left')%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20for%20ax%20in%20axs.ravel()%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20ax.set_axis_off()%0A%20%20%20%20%20%20%20%20plt.subplots_adjust(left%3D0.0%2Cbottom%3D0.0%2Cright%3D1.0%2Ctop%3D1.0%2Cwspace%3D0.05%2Chspace%3D0.05)%0A%20%20%20%20%20%20%20%20return%20fig%2C%0A%20%20%20%20return%20(MakeFigure%2C)%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20zmin%20%3D%200%20%0A%20%20%20%20zmax%20%3D%2010%0A%20%20%20%20ymin%20%3D%20-10%20%20%0A%20%20%20%20ymax%20%3D%2010%0A%20%20%20%20dz%20%3D%200.05%20%0A%20%20%20%20dy%20%3D%200.5%0A%20%20%20%20zoom%20%3D%201%0A%20%20%20%20Z%2C%20Y%20%3D%20np.mgrid%5Bzmin%2Fzoom%3Azmax%2Fzoom%3Adz%2Fzoom%2Cymin%2Fzoom%3Aymax%2Fzoom%3Ady%2Fzoom%5D%0A%20%20%20%20z_pts%2C%20y_pts%20%3D%20np.shape(Z)%0A%20%20%20%20return%20Y%2C%20Z%2C%20dy%2C%20dz%2C%20y_pts%2C%20ymax%2C%20ymin%2C%20z_pts%2C%20zmax%2C%20zmin%2C%20zoom%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20return%20np%2C%20plt%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20return%20(mo%2C)%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
