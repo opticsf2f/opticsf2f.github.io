@@ -18,16 +18,16 @@
    body{
      font-family: 'Source Sans Pro', sans-serif;
      min-height:100%;
-      margin:0px;
-      padding:0px;
+      margin:10px;
+      padding:10px;
       display:flex;
       flex-direction:column;
       line-height:1.5;
     }
    .header {
       width:100%;
-      height:130px;
-      padding-left:50px;
+      height:60px;
+      padding-left:10px;
     }
     .content {
       flex-grow:1;
@@ -35,7 +35,7 @@
       flex-direction:row;
     }
     .content .menuleft{
-      padding-left:0px;
+      padding-left:10px;
       width:30px;
       overflow:auto;
     }
@@ -45,7 +45,7 @@
     }
     .content .menuleft span{
       text-align: center;
-      padding-left:0px;
+      padding-left:10px;
       display: block;
     }
     .content .menuleft span:hover{
@@ -58,12 +58,19 @@
     }
     .content .mainspace iframe{
       border:0px;
-      border-left:1px solid rgb(220,220,220);
+      border-left:10px solid rgb(220,220,220);
     }
+    a:link {color: rgb(255, 0, 0);background-color: transparent;text-decoration: none;}
+    a:visited {color: rgb(255, 145, 0);background-color: transparent;text-decoration: none}
+    a:hover {color: rgb(255, 225, 0);background-color: transparent;text-decoration: underline;}
+    a:active {color: rgb(255, 0, 255);background-color: transparent;ext-decoration: underline;}
     h1 {text-align: center;}
     p1 {text-align: center;}
-    h2 {text-align: center; background-color: rgb(200, 0, 0);
+    p2 {text-align: left;}
+    h2 {text-align: left; background-color: rgb(200, 0, 0);
     color: rgb(0, 42, 65);}
+    h3 {text-align: left; background-color: rgb(220, 175, 255);
+      color: rgb(0, 42, 65);}
   </style>
   <script>
     function openURL(url){
@@ -75,30 +82,44 @@
 <body>
   <div class="header">
     <h1>  <a href ="https://global.oup.com/academic/product/optics-f2f-9780198786795?cc=gb&lang=en&"><i>Optics f2f</i></a></h1>
-    <h2> Last updated 2022-03-14 </h2>
   </div>
-  <div class="content">
-    <div class="menuleft">
-         <span onclick="followURL('https://optics.github.io/')"> <<< </span>
-         <span onclick="openURL('./Opticsf2f_1_audience.html')">1</span>
-         <span onclick="openURL('./Opticsf2f_2_audience.html')">2</span>
-         <span onclick="openURL('./Opticsf2f_3_audience.html')">3</span>
-         <span onclick="openURL('./Opticsf2f_4_audience.html')">4</span>
-         <span onclick="openURL('./Opticsf2f_5_audience.html')">5</span>
-         <span onclick="openURL('./Opticsf2f_6_audience.html')">6</span>
-         <span onclick="openURL('./Opticsf2f_7_audience.html')">7</span>
-         <span onclick="openURL('./Opticsf2f_8_audience.html')">8</span>
-         <span onclick="openURL('./Opticsf2f_9_audience.html')">9</span>
-         <span onclick="openURL('./Opticsf2f_10_audience.html')">10</span>
-         <span onclick="openURL('./Opticsf2f_11_audience.html')">11</span>
-         <span onclick="openURL('./Opticsf2f_12_audience.html')">12</span>
-         <span onclick="openURL('./Opticsf2f_13_audience.html')">13</span>
-         <span onclick="openURL('./Opticsf2f_App_audience.html')">App</span>
-         <span onclick="openURL('./Opticsf2f_Quiz_audience.html')">Quiz</span>
+  <div class="mainspace">
+      <h3>  Jupyter book </h3>
+      
+      <p2>  <a href ="https://opticsf2f.github.io/Opticsf2f_CodeBook/"><i>Code Book</i></a></p2>
+  
+      <ul><li> work in progress </li></ul>
+
+      <h3> MARIMO apps </h3> 
+
+      These python based apps runs in your browser (may be a bit slower on a phone). See <a href ="https://marimo.io/"><i>Marimo</i></a> 
+      for more details.
+
+      <ul>
+
+        <li>  <a href ="https://opticsf2f.github.io/lens_refraction/"><i>Lens focusing</i></a>  &nbsp &nbsp  Compare wave and rays pictures</li>
+        
+        <li>  <a href ="https://opticsf2f.github.io/ar_layer/"><i>Anti-reflection layer</i></a>
+          &nbsp &nbsp 
+          Optimise layer thickness and refractive index to minimise reflection.
+        </li> 
+        
+        <li> <a href ="https://opticsf2f.github.io/double_slit/"><i>Double Slit</i></a>
+          &nbsp &nbsp 
+          Understanding Fourier transforms in 2D. Part I
+        </li>
+        
+        <li> <a href ="https://opticsf2f.github.io/letters/"><i>Letters</i></a>
+          &nbsp &nbsp 
+          Understanding Fourier transforms in 2D. Part II
+        </li>
+
+      </ul>
+    
+      (updated 2025 02 14)
+      
     </div>
-    <div class="mainspace">
-<iframe id="presentation" width="100%" height="100%" src="https://opticsf2f.github.io/Opticsf2f_2_audience.html" allowfullscreen></iframe>
-    </div>
+      
   </div>
 
 </body>
