@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <!-- Preload is necessary because we show these images when we disconnect from the server,
+    but at that point we cannot load these images from the server -->
+    <link rel="preload" href="./assets/gradient-yHQUC_QB.png" as="image" />
+    <link rel="preload" href="./assets/noise-60BoTA8O.png" as="image" />
+    <!-- Preload the fonts -->
+    <link rel="preload" href="./assets/Lora-VariableFont_wght-B2ootaw-.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Regular-CxL0S8W7.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/PTSans-Bold-D9fedIX3.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Regular-BTCkDNvf.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Medium-DU3aDxX5.ttf" as="font" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/FiraMono-Bold-CLVRCuM9.ttf" as="font" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="a marimo app" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.json" />
+
+    <script data-marimo="true">
+      function __resizeIframe(obj) {
+        var scrollbarHeight = 20; // Max between windows, mac, and linux
+
+        function setHeight() {
+          var element = obj.contentWindow.document.documentElement;
+          // If there is no vertical scrollbar, we don't need to resize the iframe
+          if (element.scrollHeight === element.clientHeight) {
+            return;
+          }
+
+          // Create a new height that includes the scrollbar height if it's visible
+          var hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
+          var newHeight = element.scrollHeight + (hasHorizontalScrollbar ? scrollbarHeight : 0);
+
+          // Only update the height if it's different from the current height
+          if (obj.style.height !== `${newHeight}px`) {
+            obj.style.height = `${newHeight}px`;
+          }
+        }
+
+        // Resize the iframe to the height of the content and bottom scrollbar height
+        setHeight();
+
+        // Resize the iframe when the content changes
+        const resizeObserver = new ResizeObserver((entries) => {
+          setHeight();
+        });
+        resizeObserver.observe(obj.contentWindow.document.body);
+      }
+    </script>
+    <marimo-filename hidden>notebook.py</marimo-filename>
+    <marimo-mode data-mode='read' hidden></marimo-mode>
+    <marimo-version data-version='0.10.19' hidden></marimo-version>
+    <marimo-user-config data-config='{"completion": {"activate_on_typing": true, "copilot": false}, "display": {"theme": "light", "code_editor_font_size": 14, "cell_output": "above", "default_width": "medium", "dataframes": "rich"}, "formatting": {"line_length": 79}, "keymap": {"preset": "default", "overrides": {}}, "runtime": {"auto_instantiate": true, "auto_reload": "off", "on_cell_change": "autorun"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "package_management": {"manager": "pip"}, "server": {"browser": "default", "follow_symlink": false}, "snippets": {"custom_paths": [], "include_default_snippets": true}}' data-overrides='{}' hidden></marimo-user-config>
+    <marimo-app-config data-config='{"width": "medium"}' hidden></marimo-app-config>
+    <marimo-server-token data-token='123' hidden></marimo-server-token>
+    <title>marimo</title>
+    <script type="module" crossorigin src="./assets/index-C_IDebto.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DfLILvXO.css">
+  <marimo-wasm hidden=""></marimo-wasm>
+    <script>
+        if (window.location.protocol === 'file:') {
+            alert('Warning: This file must be served by an HTTP server to function correctly.');
+        }
+    </script>
+    
+    <style>
+        #save-button {
+            display: none !important;
+        }
+        #filename-input {
+            display: none !important;
+        }
+    </style>
+    <marimo-code hidden="" data-show-code="false">import%20marimo%0A%0A__generated_with%20%3D%20%220.10.19%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell(hide_code%3DTrue)%0Adef%20_(mo)%3A%0A%20%20%20%20X1%20%3D%20mo.ui.slider(start%3D-500%2C%20stop%3D500%2C%20step%3D2%2C%20label%3D%22X1%22%2C%20value%3D8)%0A%20%20%20%20Y1%20%3D%20mo.ui.slider(start%3D-100%2C%20stop%3D100%2C%20step%3D2%2C%20label%3D%22Y1%22%2C%20value%3D0)%0A%20%20%20%20a1%20%3D%20mo.ui.slider(start%3D0.2%2C%20stop%3D4%2C%20step%3D0.1%2C%20label%3D%22Filter%20X%20size%22%2C%20value%3D0.2)%0A%20%20%20%20b1%20%3D%20mo.ui.slider(start%3D0.2%2C%20stop%3D4%2C%20step%3D0.1%2C%20label%3D%22Filter%20Y%20size%22%2C%20value%3D2.4)%0A%20%20%20%20X2%20%3D%20mo.ui.slider(start%3D-100%2C%20stop%3D100%2C%20step%3D2%2C%20label%3D%22X2%22%2C%20value%3D-8)%0A%20%20%20%20Y2%20%3D%20mo.ui.slider(start%3D-100%2C%20stop%3D100%2C%20step%3D2%2C%20label%3D%22Y2%22%2C%20value%3D0)%0A%20%20%20%20a2%20%3D%20mo.ui.slider(start%3D0.2%2C%20stop%3D4%2C%20step%3D0.1%2C%20label%3D%22Filter%20X%20size%22%2C%20value%3D0.2)%0A%20%20%20%20b2%20%3D%20mo.ui.slider(start%3D0.2%2C%20stop%3D4%2C%20step%3D0.1%2C%20label%3D%22Filter%20Y%20size%22%2C%20value%3D2.4)%0A%20%20%20%20mo.hstack(%5Bmo.vstack(%5BX1%2CY1%2Ca1%2Cb1%5D)%2C%20mo.vstack(%5BX2%2CY2%2Ca2%2Cb2%5D)%5D)%0A%20%20%20%20return%20X1%2C%20X2%2C%20Y1%2C%20Y2%2C%20a1%2C%20a2%2C%20b1%2C%20b2%0A%0A%0A%40app.cell%0Adef%20_(MakeFigure%2C%20X1%2C%20X2%2C%20Y1%2C%20Y2%2C%20a1%2C%20a2%2C%20b1%2C%20b2)%3A%0A%20%20%20%20MakeFigure(X1.value%2CY1.value%2Ca1.value%2Cb1.value%2CX2.value%2CY2.value%2Ca2.value%2Cb2.value)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_(%0A%20%20%20%20Filtered_RGB_zoom_data%2C%0A%20%20%20%20InputImage%2C%0A%20%20%20%20RGB_zoom_data%2C%0A%20%20%20%20SquareShape%2C%0A%20%20%20%20fft2%2C%0A%20%20%20%20fftshift%2C%0A%20%20%20%20np%2C%0A%20%20%20%20plt%2C%0A)%3A%0A%20%20%20%20def%20MakeFigure(FilterX1%2C%20FilterY1%2C%20FilterXSize1%2C%20FilterYSize1%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20FilterX2%2C%20FilterY2%2C%20FilterXSize2%2C%20FilterYSize2)%3A%0A%20%20%20%20%20%20%20%20Zoom%20%3D%202%0A%20%20%20%20%20%20%20%20FXSize1%20%3D%20FilterXSize1%20*%202*np.pi%2F0.1%0A%20%20%20%20%20%20%20%20FYSize1%20%3D%20FilterYSize1%20*%202*np.pi%2F0.1%0A%20%20%20%20%20%20%20%20FXSize2%20%3D%20FilterXSize2%20*%202*np.pi%2F0.1%0A%20%20%20%20%20%20%20%20FYSize2%20%3D%20FilterYSize2%20*%202*np.pi%2F0.1%0A%0A%20%20%20%20%20%20%20%20Input%20%3D%20InputImage(2%2C1%2C10%2C8)%0A%20%20%20%20%20%20%20%20Image1%20%3D%20RGB_zoom_data(Input%2C%5B1.0%2C1.0%2C1.0%5D%2CZoom)%0A%0A%20%20%20%20%20%20%20%20F%3Dfftshift(fft2(Input))%0A%20%20%20%20%20%20%20%20Fr%3DF.real%0A%20%20%20%20%20%20%20%20Fi%3DF.imag%0A%20%20%20%20%20%20%20%20F2%20%3D%20Fr*Fr%2BFi*Fi%0A%20%20%20%20%20%20%20%20F2%20%2F%3Dnp.max(F2)%0A%0A%20%20%20%20%20%20%20%20x_pts%2C%20y_pts%20%20%3D%20np.shape(F2)%20%0A%20%20%20%20%20%20%20%20FX%2C%20FY%20%3D%20np.mgrid%5B0%3Ax_pts%3A1%2C0%3Ax_pts%3A1%5D%0A%0A%20%20%20%20%20%20%20%20filter%20%3D%20SquareShape(FX%2CFY%2Cx_pts%2F2%2BFilterX1%2Cy_pts%2F2%2BFilterY1%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20FXSize1%2CFYSize1%2C0)%0A%20%20%20%20%20%20%20%20filter%20%2B%3D%20SquareShape(FX%2CFY%2Cx_pts%2F2%2BFilterX2%2Cy_pts%2F2%2BFilterY2%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20FXSize2%2CFYSize2%2C0)%0A%20%20%20%20%20%20%20%20filter%20%3D%20np.clip(filter%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20F%20*%3D%201%20-%20filter%0A%20%20%20%20%20%20%20%20%23F%20*%3D%20%20filter%0A%20%20%20%20%20%20%20%20Gamma%20%3D%200.4%0A%20%20%20%20%20%20%20%20Gain%20%3D%206%20*np.ones(3)%0A%20%20%20%20%20%20%20%20FImage%20%3D%20Filtered_RGB_zoom_data(F2**Gamma%2Cfilter%2CGain%2CZoom)%0A%0A%20%20%20%20%20%20%20%20FOut%20%3D%20fft2(F)%0A%20%20%20%20%20%20%20%20Fr%3DFOut.real%0A%20%20%20%20%20%20%20%20Fi%3DFOut.imag%0A%20%20%20%20%20%20%20%20F2Out%20%3D%20Fr*Fr%2BFi*Fi%0A%20%20%20%20%20%20%20%20F2Out%20%2F%3Dnp.max(F2Out)%0A%20%20%20%20%20%20%20%20OutImage%20%3D%20RGB_zoom_data(F2Out%2C%5B2%2C2%2C2%5D%2CZoom)%0A%0A%20%20%20%20%20%20%20%20cols%20%3D%203%0A%20%20%20%20%20%20%20%20rows%20%3D%201%0A%20%20%20%20%20%20%20%20fig%2C%20axs%20%3D%20plt.subplots(rows%2Ccols%2C%20figsize%20%3D%20(8*cols%2C8*rows)%2Cdpi%3D50%2Csqueeze%3D0)%0A%20%20%20%20%20%20%20%20axs%5B0%2C0%5D.imshow(Image1)%0A%20%20%20%20%20%20%20%20axs%5B0%2C1%5D.imshow(FImage)%0A%20%20%20%20%20%20%20%20axs%5B0%2C2%5D.imshow(OutImage)%0A%20%20%20%20%20%20%20%20for%20ax%20in%20axs.ravel()%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20ax.set_axis_off()%0A%20%20%20%20%20%20%20%20%20%20%20%20plt.subplots_adjust(left%3D0.0%2Cbottom%3D0.0%2Cright%3D1.0%2Ctop%3D1.0%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20wspace%3D0.05%2Chspace%3D0.05)%0A%20%20%20%20%20%20%20%20return%20fig%2C%0A%20%20%20%20return%20(MakeFigure%2C)%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20def%20SquareShape(x%2Cy%2Cx0%2Cy0%2Ca%2Cb%2Crotation)%3A%20%20%20%20%0A%20%20%20%20%20%20%20%20theta%20%3D%20rotation%20*%20np.pi%2F180%0A%20%20%20%20%20%20%20%20xa%20%3D%20(x-x0)*np.cos(theta)%20%2B%20(y-y0)*np.sin(theta)%0A%20%20%20%20%20%20%20%20ya%20%3D%20(y-y0)*np.cos(theta)%20-%20(x-x0)*np.sin(theta)%0A%20%20%20%20%20%20%20%20shape%20%3D%20(xa%20%3E%20(-a%2F2))%20%26%20(xa%20%3C%20(a%2F2))%20%26%20(ya%20%3E%20(-b%2F2))%20%26%20(ya%20%3C%20(b%2F2))%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20return%20shape%0A%20%20%20%20return%20(SquareShape%2C)%0A%0A%0A%40app.cell%0Adef%20_(SquareShape%2C%20np)%3A%0A%20%20%20%20def%20InputImage(Nx%2C%20Ny%2C%20XSpacing%2C%20YSpacing)%3A%0A%20%20%20%20%20%20%20%20screen%20%3D%2040%0A%20%20%20%20%20%20%20%20xmin%20%3D%20-screen%2F2%20%0A%20%20%20%20%20%20%20%20xmax%20%3D%20screen%2F2%0A%20%20%20%20%20%20%20%20ymin%20%3D%20-screen%2F2%20%0A%20%20%20%20%20%20%20%20ymax%20%3D%20screen%2F2%0A%20%20%20%20%20%20%20%20dx%20%3D%200.1%0A%20%20%20%20%20%20%20%20dy%20%3D%200.1%0A%20%20%20%20%20%20%20%20X%2C%20Y%20%3D%20np.mgrid%5Bxmin%3Axmax%3Adx%2Cymin%3Aymax%3Ady%5D%0A%20%20%20%20%20%20%20%20x_pts%2C%20y_pts%20%3D%20np.shape(X)%0A%0A%20%20%20%20%20%20%20%20a%20%3D%203%0A%0A%20%20%20%20%20%20%20%20InputImage%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20for%20col%20in%20range(0%2CNx)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20row%20in%20range(0%2CNy)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20x_pos%20%3D%20(-%20(Nx-1)%2F2%20%2B%20col)%20*%20XSpacing%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20y_pos%20%3D%20(-%20(Ny-1)%2F2%20%2B%20row)%20*%20YSpacing%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20InputImage%20%2B%3D%20SquareShape(X%2CY%2Cx_pos%2Cy_pos%2Ca%2Ca%2C45)%0A%20%20%20%20%20%20%20%20return%20np.clip(InputImage%2C0%2C1)%0A%20%20%20%20return%20(InputImage%2C)%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20def%20RGB_zoom_data(data%2Cgain%2Czoom)%3A%0A%20%20%20%20%20%20%20%20x_pts%2C%20y_pts%20%20%3D%20np.shape(data)%20%0A%20%20%20%20%20%20%20%20xc%2C%20yc%20%3D%20int(x_pts%2F2)%2C%20int(y_pts%2F2)%0A%20%20%20%20%20%20%20%20xz%2C%20yz%20%3D%20int(x_pts%2F(2*zoom))%2C%20int(y_pts%2F(2*zoom))%0A%20%20%20%20%20%20%20%20R%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20G%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20B%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20R%20%2B%3D%201.0*data%0A%20%20%20%20%20%20%20%20G%20%2B%3D%20R%0A%20%20%20%20%20%20%20%20R%3Dnp.clip(gain%5B0%5D*R%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20G%3Dnp.clip(gain%5B1%5D*G%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20B%3Dnp.clip(gain%5B2%5D*B%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20RGB%3Dnp.dstack((np.flipud(R.T)%2C%20np.flipud(G.T)%2C%20np.flipud(B.T)))%0A%20%20%20%20%20%20%20%20RGBzoom%20%3D%20RGB%5Bxc-xz%3Axc%2Bxz%2Cyc-yz%3Ayc%2Byz%5D%0A%20%20%20%20%20%20%20%20return%20RGBzoom%0A%0A%20%20%20%20def%20Filtered_RGB_zoom_data(data%2Cfilter%2Cgain%2Czoom)%3A%0A%20%20%20%20%20%20%20%20x_pts%2C%20y_pts%20%20%3D%20np.shape(data)%20%0A%20%20%20%20%20%20%20%20xc%2C%20yc%20%3D%20int(x_pts%2F2)%2C%20int(y_pts%2F2)%0A%20%20%20%20%20%20%20%20xz%2C%20yz%20%3D%20int(x_pts%2F(2*zoom))%2C%20int(y_pts%2F(2*zoom))%0A%20%20%20%20%20%20%20%20R%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20G%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20B%20%3D%20np.zeros((x_pts%2Cy_pts))%0A%20%20%20%20%20%20%20%20R%20%2B%3D%201.0*data%20*%20(1-%20filter)%20%2B%200.1%20*%20(filter%20%2B%20data)%0A%20%20%20%20%20%20%20%20G%20%2B%3D%20R%20%0A%20%20%20%20%20%20%20%20B%20%2B%3D%200.1%20*%20filter%0A%20%20%20%20%20%20%20%20R%3Dnp.clip(gain%5B0%5D*R%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20G%3Dnp.clip(gain%5B1%5D*G%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20B%3Dnp.clip(gain%5B2%5D*B%2C0.0%2C1.0)%0A%20%20%20%20%20%20%20%20RGB%3Dnp.dstack((np.flipud(R.T)%2C%20np.flipud(G.T)%2C%20np.flipud(B.T)))%20%0A%20%20%20%20%20%20%20%20RGBzoom%20%3D%20RGB%5Bxc-xz%3Axc%2Bxz%2Cyc-yz%3Ayc%2Byz%5D%0A%20%20%20%20%20%20%20%20return%20RGBzoom%0A%20%20%20%20return%20Filtered_RGB_zoom_data%2C%20RGB_zoom_data%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20import%20matplotlib%20as%20mpl%0A%20%20%20%20from%20numpy.fft%20import%20fft2%2C%20fftshift%0A%20%20%20%20return%20fft2%2C%20fftshift%2C%20mpl%2C%20np%2C%20plt%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%20%20%20%20return%20(mo%2C)%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
