@@ -59,13 +59,13 @@
         }
       }
     </script>
-    <marimo-filename hidden>notebook.py</marimo-filename>
+    <marimo-filename hidden>{{ filename }}</marimo-filename>
     <!-- TODO(Trevor): Legacy, required by VS Code plugin. Remove when plugin is updated (see marimo/server/_templates/template.py) -->
     <marimo-version data-version="{{ version }}" hidden></marimo-version>
     <marimo-user-config data-config="{{ user_config }}" hidden></marimo-user-config>
     <marimo-server-token data-token="{{ server_token }}" hidden></marimo-server-token>
     <!-- /TODO -->
-    <title>pulse</title>
+    <title>{{ title }}</title>
     <script type="module" crossorigin src="./assets/index-DVgeLSg0.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/preload-helper-D2MJg03u.js">
     <link rel="modulepreload" crossorigin href="./assets/clsx-D8GwTfvk.js">
@@ -257,40 +257,13 @@
     <link rel="stylesheet" crossorigin href="./assets/markdown-renderer-DdDKmWlR.css">
     <link rel="stylesheet" crossorigin href="./assets/JsonOutput-B7vuddcd.css">
     <link rel="stylesheet" crossorigin href="./assets/index-CeUwN_0i.css">
-  <marimo-wasm hidden=""></marimo-wasm>
-    <script>
-        if (window.location.protocol === 'file:') {
-            alert('Warning: This file must be served by an HTTP server to function correctly.');
-        }
-    </script>
-    
-    <style>
-        #save-button {
-            display: none !important;
-        }
-        #filename-input {
-            display: none !important;
-        }
-    </style>
-    <marimo-code hidden="">import%20marimo%0A%0A__generated_with%20%3D%20%220.19.11%22%0Aapp%20%3D%20marimo.App(width%3D%22medium%22)%0A%0A%0A%40app.cell%0Adef%20_(mo)%3A%0A%20%20%20%20Dk%20%3D%20mo.ui.slider(start%3D0.2%2C%20stop%3D0.3%2C%20step%3D0.05%2C%20label%3D%22DOmega%22%2C%20value%3D0.2)%0A%20%20%20%20Dn%20%3D%20mo.ui.slider(start%3D0.0%2C%20stop%3D0.1%2C%20step%3D0.005%2C%20label%3D%22Dn%22%2C%20value%3D0.0)%0A%20%20%20%20gvd%20%3D%20mo.ui.slider(start%3D0.0%2C%20stop%3D0.25%2C%20step%3D0.01%2C%20label%3D%22GVD%22%2C%20value%3D0.0)%0A%20%20%20%20mo.hstack(%5Bmo.vstack(%5BDk%5D)%2C%20mo.vstack(%5BDn%5D)%2C%20mo.vstack(%5Bgvd%5D)%5D)%0A%20%20%20%20return%20Dk%2C%20Dn%2C%20gvd%0A%0A%0A%40app.cell%0Adef%20_(Dk%2C%20Dn%2C%20PulseFig%2C%20gvd)%3A%0A%20%20%20%20PulseFig(Dk.value%2CDn.value%2Cgvd.value)%0A%20%20%20%20return%0A%0A%0A%40app.cell%0Adef%20_()%3A%0A%20%20%20%20import%20marimo%20as%20mo%0A%0A%20%20%20%20import%20numpy%20as%20np%0A%20%20%20%20import%20matplotlib%20as%20mpl%0A%20%20%20%20import%20matplotlib.pyplot%20as%20plt%0A%0A%20%20%20%20%23Durham%20colours%0A%20%20%20%20dr%3D%5B190.0%2F255.0%2C30.0%2F255.0%2C45.0%2F255.0%5D%0A%20%20%20%20dy%3D%5B255.0%2F255.0%2C213.0%2F255.0%2C58.0%2F255.0%5D%0A%20%20%20%20dg%3D%5B175.0%2F255.0%2C169.0%2F255.0%2C97.0%2F255.0%5D%20%23%20Durham%20green%0A%20%20%20%20db%3D%5B0%2C174.0%2F255.0%2C239.0%2F255.0%5D%0A%20%20%20%20dp%3D%5B104.0%2F255.0%2C36.0%2F255.0%2C109.0%2F255.0%5D%0A%20%20%20%20di%3D%5B0.0%2F255.0%2C42.0%2F255.0%2C65.0%2F255.0%5D%20%23%20Durham%20ink%09%0A%20%20%20%20dpi%3D%5B203.0%2F255.0%2C168.0%2F255.0%2C177.0%2F255.0%5D%20%23%20%20Durham%20pink%20%0A%20%20%20%20ds%3D%5B218.0%2F255.0%2C205.0%2F255.0%2C162.0%2F255.0%5D%20%23%20Durham%20stone%0A%0A%20%20%20%20fs%20%3D%2018%0A%20%20%20%20mpl.rcParams%5B'font.size'%5D%20%3D%20fs%0A%20%20%20%20mpl.rcParams%5B'font.family'%5D%20%3D%20'serif'%0A%20%20%20%20mpl.rcParams%5B'xtick.direction'%5D%20%3D%20'in'%0A%20%20%20%20mpl.rcParams%5B'ytick.direction'%5D%20%3D%20'in'%0A%20%20%20%20mpl.rcParams%5B'xtick.top'%5D%20%3D%20True%0A%20%20%20%20mpl.rcParams%5B'ytick.right'%5D%20%3D%20True%0A%20%20%20%20mpl.rcParams%5B'xtick.major.size'%5D%20%3D%203%0A%20%20%20%20mpl.rcParams%5B'xtick.major.width'%5D%20%3D%201.0%0A%20%20%20%20mpl.rcParams%5B'ytick.major.size'%5D%20%3D%203%0A%20%20%20%20mpl.rcParams%5B'ytick.major.width'%5D%20%3D%201.0%0A%20%20%20%20mpl.rcParams%5B'axes.linewidth'%5D%20%3D%201.0%0A%0A%20%20%20%20mpl.rcParams%5B%22text.latex.preamble%22%5D%20%20%3D%20r%22%20%5Cusepackage%5BT1%5D%7Bfontenc%7D%20%5Cusepackage%5Bcharter%2Ccal%3Dcmcal%5D%7Bmathdesign%7D%22%0A%20%20%20%20mpl.rcParams%5B%22text.usetex%22%5D%20%3D%20True%0A%20%20%20%20return%20di%2C%20dr%2C%20mo%2C%20np%2C%20plt%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20def%20wave(z%2Ct%2Cn%2Ck%2Cc)%3A%0A%20%20%20%20%20%20%20%20return%20np.cos(k*(z-c%2Fn*t))%0A%0A%20%20%20%20return%20(wave%2C)%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20zmax%20%3D%20100%0A%20%20%20%20npts%20%3D%201000%0A%20%20%20%20z%20%3D%20np.linspace(0%2Czmax%2Cnpts)%0A%20%20%20%20n%20%3D%201%0A%20%20%20%20c%20%3D%201%0A%20%20%20%20return%20c%2C%20npts%2C%20z%2C%20zmax%0A%0A%0A%40app.cell%0Adef%20_(np)%3A%0A%20%20%20%20ks%20%3D%20np.arange(0.8%2C1.2%2C0.01)%0A%20%20%20%20nks%20%3D%20np.size(ks)%0A%20%20%20%20NPlots%20%3D%205%0A%20%20%20%20Heights%20%3D%20np.ones(NPlots)%0A%20%20%20%20return%20Heights%2C%20NPlots%0A%0A%0A%40app.cell%0Adef%20_(Heights%2C%20NPlots%2C%20c%2C%20di%2C%20dr%2C%20np%2C%20npts%2C%20plt%2C%20wave%2C%20z%2C%20zmax)%3A%0A%20%20%20%20def%20PulseFig(Dk%2CDn%2Cgvd)%3A%0A%20%20%20%20%20%20%20%20ks%20%3D%20np.arange(1.0-Dk%2C1.0%2BDk%2C0.02)%0A%20%20%20%20%20%20%20%20nks%20%3D%20np.size(ks)%20%20%20%0A%20%20%20%20%20%20%20%20ns%20%3D%20np.linspace(1.0-Dn%2C1.0%2BDn%2Cnks)%0A%20%20%20%20%20%20%20%20GVD%20%3D%20gvd*np.linspace(-1.0%2C1.0%2Cnks)%0A%20%20%20%20%20%20%20%20ns%20%2B%3D%20GVD**2%0A%0A%20%20%20%20%20%20%20%20fig%2C%20axs%20%3D%20plt.subplots(NPlots%2C1%2C%20figsize%3D(3%2C%203)%2C%20squeeze%20%3D%200%2C%20height_ratios%20%3D%20Heights)%20%20%20%20%0A%0A%20%20%20%20%20%20%20%20for%20ii%20in%20range(0%2CNPlots)%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20jj%20%3D%200%0A%20%20%20%20%20%20%20%20%20%20%20%20t%20%3D%202*%2070%2F(2*np.pi)*ii%0A%20%20%20%20%20%20%20%20%20%20%20%20sumof%20%3D%20np.zeros(npts)%0A%20%20%20%20%20%20%20%20%20%20%20%20for%20k%20in%20ks%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20y%20%3D%20wave(z%2Ct%2Cns%5Bjj%5D%2Ck%2Cc)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20sumof%20%2B%3D%20y%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20jj%20%2B%3D%201%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20axs%5Bii%2C0%5D.plot(z%2Cy%2Calpha%3D0.05%2Ccolor%3Ddi%2C%20linewidth%3D1)%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20axs%5Bii%2C0%5D.text(5%2C-1.2%2Cr'%24t%3D%20%25.0f%20%24'%20%25ii%2Cfontsize%3D14)%0A%20%20%20%20%20%20%20%20%20%20%20%20axs%5Bii%2C0%5D.plot(z%2C(sumof%2Fnks)%2Calpha%3D1.0%2Ccolor%3Ddr%2C%20linewidth%3D1)%0A%20%20%20%20%20%20%20%20%20%20%20%20axs%5Bii%2C0%5D.set_xlim(0%2Czmax)%0A%20%20%20%20%20%20%20%20%20%20%20%20axs%5Bii%2C0%5D.set_ylim(-1.4%2C1.4)%0A%20%20%20%20%20%20%20%20%20%20%20%20axs%5Bii%2C0%5D.set_xticklabels(%5B%5D)%20%0A%20%20%20%20%20%20%20%20%20%20%20%20axs%5Bii%2C0%5D.set_yticklabels(%5B%5D)%20%0A%0A%20%20%20%20%20%20%20%20axs%5BNPlots-1%2C0%5D.set_xlabel('Position')%20%0A%0A%0A%20%20%20%20%20%20%20%20plt.subplots_adjust(left%3D0.0%2Cbottom%3D0.0%2Cright%3D1.0%2Ctop%3D1.0%2Cwspace%3D0.0%2Chspace%3D0.0)%0A%20%20%20%20%20%20%20%20return%20(fig)%0A%0A%20%20%20%20return%20(PulseFig%2C)%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run()%0A</marimo-code></head>
+  </head>
   <body>
     <div id="root"></div>
     <!-- This is a portal for the data editor to render in -->
     <div id="portal" data-testid="glide-portal" style="position: fixed; left: 0; top: 0; z-index: 9999"></div>
     <script data-marimo="true">
-      window.__MARIMO_MOUNT_CONFIG__ = {
-            "filename": "notebook.py",
-            "mode": "read",
-            "version": "0.19.11",
-            "serverToken": "unused",
-            "config": {"ai": {"custom_providers": {}, "models": {"custom_models": [], "displayed_models": []}}, "completion": {"activate_on_typing": true, "copilot": false, "signature_hint_on_typing": false}, "diagnostics": {"sql_linter": true}, "display": {"cell_output": "below", "code_editor_font_size": 14, "dataframes": "rich", "default_table_max_columns": 50, "default_table_page_size": 10, "default_width": "medium", "reference_highlighting": true, "theme": "light"}, "formatting": {"line_length": 79}, "keymap": {"overrides": {}, "preset": "default"}, "language_servers": {"pylsp": {"enable_flake8": false, "enable_mypy": true, "enable_pydocstyle": false, "enable_pyflakes": false, "enable_pylint": false, "enable_ruff": true, "enabled": false}}, "mcp": {"mcpServers": {}, "presets": []}, "package_management": {"manager": "pip"}, "runtime": {"auto_instantiate": false, "auto_reload": "off", "default_csv_encoding": "utf-8", "default_sql_output": "auto", "on_cell_change": "autorun", "output_max_bytes": 8000000, "reactive_tests": true, "std_stream_max_bytes": 1000000, "watcher_on_save": "lazy"}, "save": {"autosave": "off", "autosave_delay": 1000, "format_on_save": false}, "server": {"browser": "default", "follow_symlink": false}, "snippets": {"custom_paths": [], "include_default_snippets": true}},
-            "configOverrides": {},
-            "appConfig": {"sql_output": "auto", "width": "medium"},
-            "view": {"showAppCode": false},
-            "notebook": null,
-            "session": null,
-            "runtimeConfig": null,
-        };
+      window.__MARIMO_MOUNT_CONFIG__ = '{{ mount_config }}';
     </script>
   </body>
 </html>
