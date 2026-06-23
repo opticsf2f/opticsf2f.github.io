@@ -1,0 +1,16 @@
+Talks notes
+
+Qudit Hamiltonian
+
+v could be either atoms or channels in a polariton experiment
+
+1st term single particle dynamics
+
+2nd term self interaction mainly NN, edges in the graph but we include NNN, NNNN etc.
+
+3nd term inter Rydberg interactions
+
+
+For GC, NNN and cross terms V_ij might help or hinder.
+
+
