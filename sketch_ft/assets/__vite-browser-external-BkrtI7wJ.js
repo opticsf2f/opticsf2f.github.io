@@ -1,0 +1,1 @@
+import{t as e}from"./worker-BQo2bijx.js";var t=e(((e,t)=>{t.exports={}}));export default t();
