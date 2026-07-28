@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sketch FFT Visualizer</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:#1a1a2e;color:#e0e0e0;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:20px}
+  h1{margin-bottom:16px;font-size:1.4em;color:#a8d8ea}
+  .container{display:flex;gap:24px;flex-wrap:wrap;justify-content:center}
+  .panel{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .panel label{font-size:.9em;color:#8899bb}
+  canvas{border:2px solid #334;border-radius:6px}
+  #paintCanvas{cursor:crosshair;background:#000;touch-action:none}
+  #fftCanvas{background:#111}
+  .controls{display:flex;gap:12px;align-items:center;margin-top:8px}
+  button{background:#334;color:#e0e0e0;border:none;padding:8px 16px;border-radius:4px;cursor:pointer}
+  button:hover{background:#445}
+  input[type=range]{width:100px;accent-color:#a8d8ea}
+  .zl{font-size:.85em;color:#8899bb}
+  #status{font-size:.8em;color:#666;margin-top:8px;min-height:1.2em}
+</style>
+</head>
+<body>
+<h1>Sketch FFT Visualizer</h1>
+<div class="container">
+  <div class="panel">
+    <label>Sketch</label>
+    <canvas id="pc" width="512" height="512"></canvas>
+    <div class="controls"><button id="clearBtn">Clear</button><button id="lineBtn">Line: Off</button></div>
+  <div class="controls">
+    <span class="zl">Size</span>
+    <input type="range" id="szSl" min="1" max="30" step="1" value="4">
+    <span class="zl" id="szV">4</span>
+  </div>
+  </div>
+  <div class="panel">
+    <label>FFT Magnitude</label>
+    <canvas id="fc" width="512" height="512"></canvas>
+    <div class="controls">
+      <span class="zl">Zoom</span>
+      <input type="range" id="zsl" min="1" max="4" step="1" value="1">
+      <span class="zl" id="zv">1</span>
+    </div>
+  </div>
+</div>
+<div id="status"></div>
+
+<script>
+const SZ = 512;
+const N  = 512;
+
+const pc = document.getElementById('pc');
+const fc = document.getElementById('fc');
+const pcx = pc.getContext('2d', { willReadFrequently: true });
+const fcx = fc.getContext('2d');
+const zsl = document.getElementById('zsl');
+const zv  = document.getElementById('zv');
+const status = document.getElementById('status');
+
+// Init paint canvas black with subtle test pattern
+pcx.fillStyle = '#000';
+pcx.fillRect(0, 0, SZ, SZ);
+pcx.fillStyle = '#fff';
+pcx.fillRect(SZ/2 - 2, SZ/2 - 2, 4, 4); // small dot in center
+
+// ── Drawing ──
+let drawing = false;
+let lineMode = false;
+let lineStart = null;
+let lineSnapshot = null;
+
+let brushSize = 4;
+
+const lineBtn = document.getElementById('lineBtn');
+const szSl = document.getElementById('szSl');
+const szV = document.getElementById('szV');
+
+szSl.addEventListener('input', () => { brushSize = +szSl.value; szV.textContent = brushSize; });
+
+function getPos(e) {
+  const r = pc.getBoundingClientRect();
+  if (e.touches) {
+    return { x: (e.touches[0].clientX - r.left) * SZ / r.width,
+             y: (e.touches[0].clientY - r.top)  * SZ / r.height };
+  }
+  return { x: (e.clientX - r.left) * SZ / r.width,
+           y: (e.clientY - r.top)  * SZ / r.height };
+}
+
+function onDown(e) {
+  e.preventDefault(); drawing = true;
+  const p = getPos(e);
+  if (lineMode) {
+    lineStart = p;
+    lineSnapshot = pcx.getImageData(0, 0, SZ, SZ);
+  } else {
+    pcx.fillStyle = '#fff';
+    pcx.beginPath();
+    pcx.arc(p.x, p.y, brushSize / 2, 0, Math.PI * 2);
+    pcx.fill();
+    renderFFT();
+  }
+}
+function onMove(e) {
+  if (!drawing) return;
+  e.preventDefault();
+  const p = getPos(e);
+  if (lineMode && lineStart) {
+    pcx.putImageData(lineSnapshot, 0, 0);
+    pcx.lineWidth = brushSize; pcx.lineCap = 'round'; pcx.strokeStyle = '#fff';
+    pcx.beginPath();
+    pcx.moveTo(lineStart.x, lineStart.y);
+    pcx.lineTo(p.x, p.y);
+    pcx.stroke();
+  } else {
+    pcx.lineWidth = brushSize; pcx.lineCap = 'round'; pcx.strokeStyle = '#fff';
+    pcx.lineTo(p.x, p.y); pcx.stroke();
+    pcx.beginPath(); pcx.moveTo(p.x, p.y);
+  }
+  renderFFT();
+}
+function onUp() {
+  drawing = false;
+  lineStart = null;
+  lineSnapshot = null;
+}
+
+pc.addEventListener('mousedown', onDown);
+pc.addEventListener('mousemove', onMove);
+pc.addEventListener('mouseup', onUp);
+pc.addEventListener('mouseleave', onUp);
+pc.addEventListener('touchstart', onDown, { passive: false });
+pc.addEventListener('touchmove', onMove, { passive: false });
+pc.addEventListener('touchend', onUp);
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  pcx.fillStyle = '#000';
+  pcx.fillRect(0, 0, SZ, SZ);
+  renderFFT();
+});
+
+lineBtn.addEventListener('click', () => {
+  lineMode = !lineMode;
+  lineBtn.textContent = lineMode ? 'Line: On' : 'Line: Off';
+  lineBtn.style.background = lineMode ? '#2a4a6a' : '#334';
+});
+
+// ── FFT ──
+// Iterative Cooley-Tukey radix-2 DIT
+// Modifies re and im arrays in-place
+function fft1d(re, im) {
+  const n = re.length;
+  // bit-reversal permutation
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) {
+      let t = re[i]; re[i] = re[j]; re[j] = t;
+      t = im[i]; im[i] = im[j]; im[j] = t;
+    }
+  }
+  // butterfly operations
+  let len = 2;
+  while (len <= n) {
+    const half = len >> 1;
+    const wRe = Math.cos(-Math.PI / half);
+    const wIm = Math.sin(-Math.PI / half);
+    for (let i = 0; i < n; i += len) {
+      let curRe = 1, curIm = 0;
+      for (let j = 0; j < half; j++) {
+        const a = re[i + j], b = im[i + j];
+        const c = re[i + j + half], d = im[i + j + half];
+        const tRe = curRe * c - curIm * d;
+        const tIm = curRe * d + curIm * c;
+        re[i + j] = a + tRe;       im[i + j]       = b + tIm;
+        re[i + j + half] = a - tRe; im[i + j + half] = b - tIm;
+        const nRe = curRe * wRe - curIm * wIm;
+        const nIm = curRe * wIm + curIm * wRe;
+        curRe = nRe; curIm = nIm;
+      }
+    }
+    len <<= 1;
+  }
+}
+
+// 2D FFT: row then column
+function fft2d(input) {
+  // input: array of N Float64Array rows
+  // return: { re: [N][N], im: [N][N] }
+  const re = input.map(r => Float64Array.from(r));
+  const im = Array.from({ length: N }, () => new Float64Array(N));
+
+  // transform each row
+  for (let r = 0; r < N; r++) fft1d(re[r], im[r]);
+
+  // transform each column
+  for (let c = 0; c < N; c++) {
+    const cr = new Float64Array(N), ci = new Float64Array(N);
+    for (let r = 0; r < N; r++) { cr[r] = re[r][c]; ci[r] = im[r][c]; }
+    fft1d(cr, ci);
+    for (let r = 0; r < N; r++) { re[r][c] = cr[r]; im[r][c] = ci[r]; }
+  }
+  return { re, im };
+}
+
+// Shift zero-frequency to center
+function fftShift(F) {
+  const h = N >> 1;
+  const sr = Array.from({ length: N }, () => new Float64Array(N));
+  const si = Array.from({ length: N }, () => new Float64Array(N));
+  for (let r = 0; r < N; r++)
+    for (let c = 0; c < N; c++) {
+      const nr = (r + h) % N, nc = (c + h) % N;
+      sr[nr][nc] = F.re[r][c];
+      si[nr][nc] = F.im[r][c];
+    }
+  return { re: sr, im: si };
+}
+
+// ── Main render ──
+function renderFFT() {
+  const t0 = performance.now();
+
+  // Sample paint canvas → N×N float array
+  const imgData = pcx.getImageData(0, 0, SZ, SZ);
+  const px = imgData.data;
+  const input = Array.from({ length: N }, () => new Float64Array(N));
+  for (let r = 0; r < N; r++) {
+    const sy = (r * SZ / N) | 0;
+    for (let c = 0; c < N; c++) {
+      const sx = (c * SZ / N) | 0;
+      input[r][c] = px[(sy * SZ + sx) * 4] / 255;
+    }
+  }
+
+  // Compute FFT
+  const F = fftShift(fft2d(input));
+
+  // Magnitude squared, find max
+  const mag2 = Array.from({ length: N }, () => new Float64Array(N));
+  let maxVal = 0;
+  for (let r = 0; r < N; r++)
+    for (let c = 0; c < N; c++) {
+      const v = F.re[r][c] * F.re[r][c] + F.im[r][c] * F.im[r][c];
+      mag2[r][c] = v;
+      if (v > maxVal) maxVal = v;
+    }
+  if (maxVal === 0) maxVal = 1;
+
+  // Render zoomed region
+  const zoom = +zsl.value;
+  const h = N >> 1;
+  const halfView = (N / (2 * zoom)) | 0;
+  const rStart = h - halfView;
+  const cStart = h - halfView;
+  const viewSz = halfView * 2;
+
+  const out = fcx.createImageData(SZ, SZ);
+  const od = out.data;
+
+  for (let r = 0; r < SZ; r++) {
+    const sr = rStart + (r / SZ) * viewSz;
+    const ir = Math.max(0, Math.min(N - 1, sr | 0));
+    for (let c = 0; c < SZ; c++) {
+      const sc = cStart + (c / SZ) * viewSz;
+      const ic = Math.max(0, Math.min(N - 1, sc | 0));
+      const val = Math.pow(mag2[ir][ic] / maxVal, 0.4);
+      const g = (val * 255) | 0;
+      const idx = (r * SZ + c) * 4;
+      od[idx] = od[idx + 1] = od[idx + 2] = g;
+      od[idx + 3] = 255;
+    }
+  }
+  fcx.putImageData(out, 0, 0);
+
+  status.textContent = 'FFT: ' + ((performance.now() - t0) | 0) + ' ms | max: ' + maxVal.toFixed(1);
+  if (maxVal < 1) console.warn('maxVal very small: ' + maxVal);
+}
+
+zsl.addEventListener('input', () => { zv.textContent = zsl.value; renderFFT(); });
+
+// Initial render
+renderFFT();
+</script>
+</body>
+</html>
